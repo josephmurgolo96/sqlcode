@@ -1,0 +1,404 @@
+Select * from Employee;
+Select * from Sales;
+Select * from Product;
+Select * from Supplier;
+Select * from vw3_Branch;
+
+CREATE VIEW vw3_Branch
+AS
+SELECT branch_id, Manager_ID AS Supervisor_ID, Location, Address
+  FROM Branch;
+  
+UPDATE Branch
+SET Manager_ID=30
+WHERE branch_id=3;
+
+CREATE TABLE Employee (
+id int PRIMARY KEY auto_increment, 
+last_name varchar(30),
+first_name varchar(20),
+sex varchar(1),
+branch_id int,
+start_date DATE,
+salary INT,
+supervisor_id int
+);
+
+SELECT Employee.first_name,Employee.last_name
+FROM Employee
+WHERE employee.id
+IN(SELECT Sales.employee_id
+FROM Sales
+WHERE Sales.quantity>25);
+
+
+SELECT Employee.id, Employee.last_name, Branch.Location
+FROM Employee
+RIGHT JOIN Branch
+ON Employee.id=Branch.Manager_ID;
+
+
+ALTER TABLE Employee 
+ADD FOREIGN KEY (supervisor_id)
+REFERENCES Employee(id)
+ON DELETE SET NULL
+;
+
+INSERT INTO Employee
+VALUES(1,'Murgolo','Joseph','M',1,'2019-07-11',70000,NULL);
+INSERT INTO Employee
+VALUES(2,'Figliozzi','Tony','M',1,'2019-07-11',70000,1);
+INSERT INTO Employee
+VALUES(3,'Saracena','Jannet','F',1,'1995-04-03',93000,1);
+INSERT INTO Employee
+VALUES(4,'Bass','Victoria','F',1,'2012-11-11',80000,1);
+INSERT INTO Employee
+VALUES(5,'Crone','Alyssa','F',1,'2013-12-09',73400,1);
+INSERT INTO Employee
+VALUES(6,'Lee','Bobby','M',1,'2017-05-17',71200,1);
+INSERT INTO Employee
+VALUES(7,'Perrina','Gianna','F',1,'2009-03-22',96600,1);
+INSERT INTO Employee
+VALUES(8,'Bitetto','Travis','M',1,'2015-06-23',62000,1);
+INSERT INTO Employee
+VALUES(9,'Blaze','Richard','M',1,'1999-08-08',102000,1);
+INSERT INTO Employee
+VALUES(10,'Murphy','Margaret','F',1,'2004-05-13',76000,1);
+INSERT INTO Employee
+VALUES(11,'Fitzpatrick','Karissa','F',1,'2007-12-03',92000,1);
+INSERT INTO Employee
+VALUES(12,'Cardenas','Chris','M',1,'2011-07-28',78400,1);
+INSERT INTO Employee
+VALUES(13,'Alesi','Victoria','F',1,'2014-01-15',98700,1);
+INSERT INTO Employee
+VALUES(14,'Rauchet','Greg','M',1,'2018-09-26',58000,1);
+INSERT INTO Employee
+VALUES(15,'Scanni','Fred','M',1,'2008-02-15',88000,1);
+
+INSERT INTO Employee
+VALUES(16,'Pannel','Gina','F',2,'2009-05-29',105000,NULL);
+INSERT INTO Employee
+VALUES(17,'Brown','Spencer','M',2,'2009-05-29',68000,16);
+INSERT INTO Employee
+VALUES(18,'Cardinal','Victoria','F',2,'2007-06-18',750000,16);
+INSERT INTO Employee
+VALUES(19,'Bennet','Thomas','M',2,'2002-11-06',960000,16);
+INSERT INTO Employee
+VALUES(20,'Booth','John','M',2,'2009-09-03',820000,16);
+INSERT INTO Employee
+VALUES(21,'Ramsey','Tyreek','M',2,'2010-12-18',840000,16);
+INSERT INTO Employee
+VALUES(22,'McDonald','Azul','M',2,'2018-04-01',56000,16);
+INSERT INTO Employee
+VALUES(23,'Finley','Fran','F',2,'2013-04-26',71000,16);
+INSERT INTO Employee
+VALUES(24,'Smith','Scott','M',2,'1996-07-03',99000,16);
+INSERT INTO Employee
+VALUES(25,'Munson','Vincent','M',2,'2005-06-17',101000,16);
+INSERT INTO Employee
+VALUES(26,'Butcher','Vanessa','F',2,'2014-09-03',88000,16);
+INSERT INTO Employee
+VALUES(27,'Green','Victor','M',2,'2012-02-04',69000,16);
+INSERT INTO Employee
+VALUES(28,'Murgolo','Mike','M',2,'2003-09-06',91000,16);
+INSERT INTO Employee
+VALUES(29,'Wilson','Thomas','M',2,'2014-09-07',79000,16);
+
+INSERT INTO Employee
+VALUES(30,'Scott','Michael','M',2,'2005-09-29',101000,NULL);
+INSERT INTO Employee
+VALUES(31,'Jenkins','WIlliam','M',2,'2017-01-19',59000,30);
+INSERT INTO Employee
+VALUES(32,'Goldstein','David','M',2,'2013-03-11',73000,30);
+INSERT INTO Employee
+VALUES(33,'Obama','Jamarcus','M',2,'2008-09-19',93000,30);
+INSERT INTO Employee
+VALUES(34,'Bush','Nancy','F',2,'2012-09-21',68000,30);
+INSERT INTO Employee
+VALUES(35,'Jenkins','WIlliam','M',3,'2017-01-19',59000,30);
+INSERT INTO Employee
+VALUES(36,'Thorton','Gabriella','F',3,'2013-03-11',78000,30);
+INSERT INTO Employee
+VALUES(37,'Cichon','Frank','M',3,'2009-06-28',64000,30);
+INSERT INTO Employee
+VALUES(38,'Benetiz','Alyssa','F',3,'2017-01-19',72000,30);
+INSERT INTO Employee
+VALUES(39,'Russo','Rocco','M',3,'2016-05-14',58000,30);
+INSERT INTO Employee
+VALUES(40,'Barkley','Nicole','F',3,'2015-07-18',48000,30);
+INSERT INTO Employee
+VALUES(41,'Oneal','Jermaine','M',3,'2006-08-25',87000,30);
+
+update Employee set branch_id=3 where id=35;
+
+
+ALTER TABLE Employee 
+ADD FOREIGN KEY (branch_id)
+REFERENCES Branch(branch_id)
+ON DELETE SET NULL
+;
+
+CREATE TABLE Sales (
+employee_id int, 
+product_id int,
+quantity int,
+branch_id int,
+);
+
+
+ALTER TABLE Sales 
+ADD FOREIGN KEY (branch_id)
+REFERENCES Branch(branch_id)
+ON DELETE SET NULL
+;
+ALTER TABLE Sales 
+ADD FOREIGN KEY (product_id)
+REFERENCES Product(product_id)
+ON DELETE SET NULL
+;
+ALTER TABLE Sales 
+ADD FOREIGN KEY (employee_id)
+REFERENCES Employee(id)
+ON DELETE SET NULL
+;
+INSERT INTO Sales
+VALUES(5,3,28,1);
+INSERT INTO Sales
+VALUES(18,3,29,2);
+INSERT INTO Sales
+VALUES(13,1,26,1);
+INSERT INTO Sales
+VALUES(39,2,8,3);
+INSERT INTO Sales
+VALUES(31,5,4,3);
+INSERT INTO Sales
+VALUES(19,4,16,2);
+INSERT INTO Sales
+VALUES(20,4,12,2);
+INSERT INTO Sales
+VALUES(14,2,7,1);
+INSERT INTO Sales
+VALUES(6,5,14,1);
+INSERT INTO Sales
+VALUES(7,4,23,1);
+INSERT INTO Sales
+VALUES(1,4,29,1);
+INSERT INTO Sales
+VALUES(2,2,17,1);
+INSERT INTO Sales
+VALUES(3,5,23,1);
+INSERT INTO Sales
+VALUES(4,3,18,1);
+INSERT INTO Sales
+VALUES(9,3,28,1);
+INSERT INTO Sales
+VALUES(11,5,22,1);
+INSERT INTO Sales
+VALUES(11,4,11,1);
+INSERT INTO Sales
+VALUES(15,2,14,1);
+INSERT INTO Sales
+VALUES(8,1,9,1);
+INSERT INTO Sales
+VALUES(34,3,13,3);
+INSERT INTO Sales
+VALUES(37,1,10,3);
+INSERT INTO Sales
+VALUES(24,5,19,2);
+INSERT INTO Sales
+VALUES(24,4,8,2);
+INSERT INTO Sales
+VALUES(21,3,16,2);
+INSERT INTO Sales
+VALUES(26,3,36,2);
+INSERT INTO Sales
+VALUES(13,4,24,1);
+INSERT INTO Sales
+VALUES(14,2,9,1);
+INSERT INTO Sales
+VALUES(39,3,12,3);
+INSERT INTO Sales
+VALUES(38,3,15,1);
+INSERT INTO Sales
+VALUES(32,5,14,3);
+INSERT INTO Sales
+VALUES(16,4,22,2);
+INSERT INTO Sales
+VALUES(16,3,19,2);
+INSERT INTO Sales
+VALUES(16,1,8,2);
+INSERT INTO Sales
+VALUES(1,4,7,1);
+INSERT INTO Sales
+VALUES(25,5,19,2);
+INSERT INTO Sales
+VALUES(25,1,8,2);
+INSERT INTO Sales
+VALUES(25,4,4,2);
+INSERT INTO Sales
+VALUES(25,3,11,2);
+INSERT INTO Sales
+VALUES(16,4,22,2);
+INSERT INTO Sales
+VALUES(6,4,22,2);
+INSERT INTO Sales
+VALUES(10,3,21,1);
+INSERT INTO Sales
+VALUES(12,1,14,1);
+INSERT INTO Sales
+VALUES(17,4,7,2);
+INSERT INTO Sales
+VALUES(22,2,4,2);
+INSERT INTO Sales
+VALUES(23,1,15,2);
+INSERT INTO Sales
+VALUES(27,3,24,2);
+INSERT INTO Sales
+VALUES(28,5,18,2);
+INSERT INTO Sales
+VALUES(28,2,10,2);
+INSERT INTO Sales
+VALUES(29,3,31,2);
+INSERT INTO Sales
+VALUES(30,4,18,3);
+INSERT INTO Sales
+VALUES(35,2,6,3);
+INSERT INTO Sales
+VALUES(36,4,11,3);
+INSERT INTO Sales
+VALUES(33,1,18,3);
+INSERT INTO Sales
+VALUES(33,4,4,3);
+INSERT INTO Sales
+VALUES(41,3,23,3);
+INSERT INTO Sales
+VALUES(41,4,3,3);
+INSERT INTO Sales
+VALUES(40,4,18,3);
+INSERT INTO Sales
+VALUES(6,3,20,1);
+INSERT INTO Sales
+VALUES(9,5,16,1);
+INSERT INTO Sales
+VALUES(9,1,11,1);
+INSERT INTO Sales
+VALUES(40,3,6,3);
+
+ALTER TABLE Sales
+ADD COLUMN Month_Sold varchar(10);
+
+UPDATE Sales
+set Month_Sold='September'
+WHERE employee_id=40 AND product_id=3;
+
+
+delete from Sales where employee_id=41;
+
+update Sales set Month_Sold='September' where employee_id=1
+
+SELECT salary FROM Employee where id=40;
+
+SELECT id from Employee where salary=105000  ;
+
+select count(product_id) from Sales;
+
+
+CREATE TABLE Product (
+product_id int PRIMARY KEY, 
+product_name varchar(20),
+sale_price decimal
+);
+
+INSERT INTO Product
+VALUES(1,'helmet',200.50);
+INSERT INTO Product
+VALUES(2,'shoulder pads',120.75);
+INSERT INTO Product
+VALUES(3,'leg pads',60.00);
+INSERT INTO Product
+VALUES(4,'league admission',599.99);
+INSERT INTO Product
+VALUES(5,'cleats',149.99);
+
+update Product set sale_price=149.99 where product_id=5;
+update Branch set Address= '5 Newbury st' where branch_id=3;
+
+ALTER TABLE Product
+MODIFY sale_price decimal(5,2);
+
+CREATE TABLE Supplier (
+supplier_id int,
+product_id int,
+price_per_unit decimal(5,2),
+company_name varchar(20)
+);
+ALTER TABLE Supplier
+ADD comapny_name varchar(20);
+
+ALTER TABLE Supplier
+MODIFY price_per_unit decimal(5,2);
+
+ALTER TABLE Branch
+ADD COLUMN Manager_ID int;
+
+ALTER TABLE Branch 
+ADD FOREIGN KEY (Manager_ID)
+REFERENCES Employee(id)
+ON DELETE SET NULL
+;
+
+
+
+INSERT INTO Supplier
+VALUES(1,3,44.99, 'Harolds Sports');
+INSERT INTO Supplier
+VALUES(2,1,114.50, 'Sports Hub');
+INSERT INTO Supplier
+VALUES(3,2,96.25, 'United Athlete');
+INSERT INTO Supplier
+VALUES(2,5,109.99, 'Sports Hub');
+INSERT INTO Supplier
+VALUES(4,5,195.50, 'JM Sports');
+
+UPDATE Supplier
+SET product_id=4
+WHERE price_per_unit=195.50;
+
+CREATE TABLE Branch (
+Location varchar(20),
+branch_id int PRIMARY KEY,
+);
+
+ALTER TABLE Branch
+ADD COLUMN Address varchar(20);
+
+
+
+ALTER TABLE Branch
+DROP total_revenue;
+
+ALTER TABLE Branch 
+ADD FOREIGN KEY (id)
+REFERENCES Employee(id)
+ON DELETE SET NULL
+;
+
+INSERT INTO Branch
+VALUES('New York',1);
+INSERT INTO Branch
+VALUES('Philadelphia',2);
+INSERT INTO Branch
+VALUES('Boston',3);
+
+ALTER TABLE Branch
+ADD COLUMN Supervisor_ID int
+
+SELECT Sales.quantity, Sales.product_id
+FROM Sales
+WHERE employee_id=21;
+
+SELECT count(Salary) FROM Employee GROUP BY Sex;
+SELECT first_name FROM Employee
+UNION
+Select  FROM vw_Branch;
+
